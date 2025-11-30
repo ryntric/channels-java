@@ -2,7 +2,7 @@ name: JCStress Tests
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   maven-build:
@@ -33,6 +33,7 @@ jobs:
           name: 'jcstress-1.0-SNAPSHOT.jar'
           path: './'
       - name: 'Setup JDK 11'
+        timeout-minutes: 360
         uses: actions/setup-java@v4
         with:
           java-version: '11'
