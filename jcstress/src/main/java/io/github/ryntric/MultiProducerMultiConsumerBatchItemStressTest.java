@@ -1,0 +1,100 @@
+package io.github.ryntric;
+
+import org.openjdk.jcstress.annotations.Actor;
+import org.openjdk.jcstress.annotations.Expect;
+import org.openjdk.jcstress.annotations.JCStressTest;
+import org.openjdk.jcstress.annotations.Outcome;
+import org.openjdk.jcstress.annotations.State;
+import org.openjdk.jcstress.infra.results.ZZZZ_Result;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.LongAdder;
+import java.util.function.Consumer;
+
+@State
+@JCStressTest
+@Outcome(id = "true, true, true, true", expect = Expect.ACCEPTABLE)
+public class MultiProducerMultiConsumerBatchItemStressTest {
+    private final Channel<Object> channel = Channel.mpmc(8192, ProducerWaitStrategyType.SPINNING, ConsumerWaitStrategyType.SPINNING);
+    private final Set<Object> pushed = ConcurrentHashMap.newKeySet();
+    private final Set<Object> processed = ConcurrentHashMap.newKeySet();
+
+    private final LongAdder produced = new LongAdder();
+    private final LongAdder consumed = new LongAdder();
+    private final Consumer<Object> handler = obj -> {
+        Objects.requireNonNull(obj, "Object is null, its a wrong case");
+        if (pushed.contains(obj) && processed.add(obj)) {
+            consumed.increment();
+            return;
+        }
+        throw new RuntimeException("processed already contains its value");
+    };
+
+    @Actor
+    public void producer1() {
+        List<Object> items = List.of(new Object(), new Object());
+        pushed.addAll(items);
+        channel.push(items);
+        produced.add(items.size());
+    }
+
+    @Actor
+    public void producer2() {
+        List<Object> items = List.of(new Object(), new Object());
+        pushed.addAll(items);
+        channel.push(items);
+        produced.add(items.size());
+    }
+
+    @Actor
+    public void producer3() {
+        List<Object> items = List.of(new Object(), new Object());
+        pushed.addAll(items);
+        channel.push(items);
+        produced.add(items.size());
+    }
+
+    @Actor
+    public void producer4() {
+        List<Object> items = List.of(new Object(), new Object());
+        pushed.addAll(items);
+        channel.push(items);
+        produced.add(items.size());
+    }
+
+    @Actor
+    public void consumer1(ZZZZ_Result result) {
+        while (consumed.longValue() != produced.longValue()) {
+            channel.receive(2048, handler);
+        }
+        result.r1 = true;
+    }
+
+    @Actor
+    public void consumer2(ZZZZ_Result result) {
+        while (consumed.longValue() != produced.longValue()) {
+            channel.receive(2048, handler);
+        }
+        result.r2 = true;
+    }
+
+    @Actor
+    public void consumer3(ZZZZ_Result result) {
+        while (consumed.longValue() != produced.longValue()) {
+            channel.receive(2048, handler);
+        }
+        result.r3 = true;
+    }
+
+    @Actor
+    public void consumer4(ZZZZ_Result result) {
+        while (consumed.longValue() != produced.longValue()) {
+            channel.receive(2048, handler);
+        }
+        result.r4 = true;
+    }
+
+}

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>channels</artifactId>
+    <groupId>io.github.ryntric</groupId>
+    <version>${revision}</version>
+    <packaging>jar</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>It is a low-latency Java concurrency library designed around ring buffers, sequencers, and customizable wait strategies. </description>
+    <url>https://ryntric.github.io/channels-java</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>ryntric</name>
+            <email>io.github.ryntric@gmail.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/ryntric/channels-java/</url>
+        <connection>scm:git:git://github.com/ryntric/channels-java.git</connection>
+        <developerConnection>scm:git:ssh://github.com/ryntric/channels-java.git</developerConnection>
+    </scm>
+
+    <properties>
+        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
+        <revision>1.0-SNAPSHOT</revision>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+    </properties>
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>flatten-maven-plugin</artifactId>
+                        <version>${flatten-maven-plugin.version}</version>
+                        <configuration>
+                            <flattenedPomFilename>target/flattened-pom.xml</flattenedPomFilename>
+                            <updatePomFile>true</updatePomFile>
+                            <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>flatten</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>flatten</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>flatten-clean</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+</project>
