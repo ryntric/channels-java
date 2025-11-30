@@ -1,9 +1,8 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.ryntric/channels.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.ryntric/workers-core)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.ryntric/channels.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.ryntric/channels)
 [![LICENSE](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ryntric/channels-java/blob/master/LICENSE)
 [![Maven Build](https://github.com/ryntric/channels-java/actions/workflows/build.yml/badge.svg)](https://github.com/ryntric/channels-java/actions/workflows/build.yml)
 [![JMH Benchmark](https://github.com/ryntric/channels-java/actions/workflows/jmh.yml/badge.svg)](https://github.com/ryntric/channels-java/actions/workflows/jmh.yml)
 [![JCStress Tests](https://github.com/ryntric/channels-java/actions/workflows/jcstress.yml/badge.svg)](https://github.com/ryntric/channels-java/actions/workflows/jcstress.yml)
-[![Qodana](https://github.com/ryntric/channels-java/actions/workflows/qodana_code_quality.yml/badge.svg)](https://github.com/ryntric/channels-java/actions/workflows/qodana_code_quality.yml)
 [![pages-build-deployment](https://github.com/ryntric/channels-java/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/ryntric/channels-java/actions/workflows/pages/pages-build-deployment)
 
 #### It is a low-latency concurrency library designed around ring buffers, sequencers, and customizable wait strategies. It provides spsc, mpsc, spmc, mpmc channels along with batch and single-item publishing modes, to maximize throughput and minimize contention
